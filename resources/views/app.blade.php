@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
     {{-- Inertia --}}
     <script src="https://polyfill.io/v3/polyfill.min.js?features=smoothscroll,NodeList.prototype.forEach,Promise,Object.values,Object.assign" defer></script>
@@ -16,7 +16,7 @@
 </head>
 <body class="font-sans leading-none text-gray-700 antialiased">
     @inertia
-    <script src="{{ mix('/js/app.js') }}" defer></script>
+    <script src="{{ asset('/js/app.js') }}" defer></script>
     @if (app()->isLocal())
         <script src="http://localhost:3000/browser-sync/browser-sync-client.js"></script>
     @endif
