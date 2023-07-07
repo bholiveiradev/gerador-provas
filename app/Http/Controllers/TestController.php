@@ -106,6 +106,6 @@ class TestController extends Controller
                     ->whereHas('questions')
                     ->first();
 
-        return Pdf::loadView('pdf.test', compact('test'))->stream();
+        return Pdf::loadView('pdf.answer', compact('test'))->stream();
     }
 }
