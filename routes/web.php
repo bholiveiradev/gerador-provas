@@ -71,7 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::post('tests', [TestController::class, 'store'])->name('tests.store');
     Route::get('tests/{test}/print', [TestController::class, 'print'])->name('tests.print');
     Route::get('tests/{test}/answer', [TestController::class, 'answer'])->name('tests.answer');
-    Route::get('tests/{test}/show', [TestController::class, 'show'])->name('tests.show');
+    Route::get('tests/{test}', [TestController::class, 'show'])->name('tests.show');
 });
 
 

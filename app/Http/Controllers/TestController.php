@@ -21,7 +21,7 @@ class TestController extends Controller
     public function index()
     {
         return Inertia::render('Tests/Index', [
-            'tests' => Test::where('user_id', Auth::id())->with('subject')->get(),
+            'tests' => Test::whereUserId(Auth::id())->with('subject')->get(),
         ]);
     }
 
@@ -31,7 +31,7 @@ class TestController extends Controller
     public function create()
     {
         return Inertia::render('Tests/Create', [
-            'subjects' => Subject::where('user_id', Auth::id())->get(),
+            'subjects' => Subject::whereUserId(Auth::id())->get(),
         ]);
     }
 
@@ -48,7 +48,7 @@ class TestController extends Controller
         DB::beginTransaction();
 
         try {
-            $questions = Question::where('subject_id', Request::input('subject'))
+            $questions = Question::whereSubjectId(Request::input('subject'))
                             ->inRandomOrder()
                             ->limit(Request::input('count_questions'))
                             ->pluck('id')
@@ -57,6 +57,7 @@ class TestController extends Controller
             $test = Test::create([
                 'user_id' => Auth::id(),
                 'subject_id' => Request::input('subject'),
+                'infos' => Request::input('infos'),
                 'count_questions' => count($questions) >= Request::input('count_questions')
                                         ? Request::input('count_questions')
                                         : count($questions),
@@ -73,25 +74,38 @@ class TestController extends Controller
 
             DB::rollBack();
 
-            return Redirect::route('tests.create', $test)->with('errors', $exception->getMessage());
+            return Redirect::back()->with('errors', $exception->getMessage());
         }
 
     }
 
-    public function print(Test $test)
+    public function show(int $id)
     {
-        $pdf = Pdf::loadView('pdf.test', ['subject' => $test->subject->name]);
-        return $pdf->stream();
+        $test = Test::whereId($id)
+                    ->with(['subject', 'questions'])
+                    ->whereHas('questions')
+                    ->first();
+
+        return view('pdf.test', compact('test'));
     }
 
-    public function answer(Test $test)
+    public function print(int $id)
     {
-        $pdf = Pdf::loadView('pdf.test', ['subject' => $test->subject->name]);
-        return $pdf->stream();
+        $test = Test::whereId($id)
+                    ->with(['subject', 'questions'])
+                    ->whereHas('questions')
+                    ->first();
+
+        return Pdf::loadView('pdf.test', compact('test'))->stream();
     }
 
-    public function show(Test $test)
+    public function answer(int $id)
     {
-        return view('pdf.test', ['subject' => $test->subject->name]);
+        $test = Test::whereId($id)
+                    ->with(['subject', 'questions'])
+                    ->whereHas('questions')
+                    ->first();
+
+        return Pdf::loadView('pdf.test', compact('test'))->stream();
     }
 }

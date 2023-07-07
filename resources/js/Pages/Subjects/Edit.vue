@@ -1,7 +1,7 @@
 <template>
   <div>
     <Head title="Editar Disciplina" />
-    <div class="flex justify-start mb-8 max-w-3xl">
+    <div class="flex justify-start mb-8 w-full">
       <h1 class="text-3xl font-bold">
         <Link class="text-indigo-400 hover:text-indigo-600" href="/subjects">Disciplinas</Link>
         <span class="text-indigo-400 font-medium"> / </span>
@@ -9,7 +9,7 @@
       </h1>
     </div>
     <trashed-message v-if="subject.deleted_at" class="mb-6" @restore="restore"> A disciplina foi removido. </trashed-message>
-    <div class="max-w-3xl bg-white rounded-md shadow overflow-hidden">
+    <div class="w-full bg-white rounded-md shadow overflow-hidden">
       <form @submit.prevent="update">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
           <text-input v-model="form.name" :error="form.errors.name" class="pb-8 pr-6 w-full" label="Disciplina" />
@@ -21,7 +21,7 @@
       </form>
     </div>
 
-    <div class="max-w-3xl bg-white rounded-md shadow overflow-hidden mt-8">
+    <div class="w-full bg-white rounded-md shadow overflow-hidden mt-8">
       <form @submit.prevent="storeQuestion">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
           <text-input v-model="formQuestion.question" :error="formQuestion.errors.question" class="pb-8 pr-6 w-full" label="Questão" />
@@ -44,7 +44,7 @@
       </form>
     </div>
 
-    <div class="max-w-3xl bg-white rounded-md shadow overflow-hidden mt-8">
+    <div class="w-full bg-white rounded-md shadow overflow-hidden mt-8">
       <div v-if="!subject.questions.length">
         <p class="px-6 py-4 border-t" colspan="4">Nenhuma questão por enquanto.</p>
       </div>

@@ -13,11 +13,11 @@ class DashboardController extends Controller
     public function index()
     {
         return Inertia::render('Dashboard/Index', [
-            'countSubjects' => Subject::where('user_id', Auth::id())->count(),
+            'countSubjects' => Subject::whereUserId(Auth::id())->count(),
             'countQuestions' => Question::whereHas('subject', function ($query) {
-                $query->where('user_id', Auth::id());
+                $query->whereUserId(Auth::id());
             })->count(),
-            'countTests' => Test::where('user_id', Auth::id())->count(),
+            'countTests' => Test::whereUserId(Auth::id())->count(),
         ]);
     }
 }

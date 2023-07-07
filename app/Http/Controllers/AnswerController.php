@@ -18,7 +18,7 @@ class AnswerController extends Controller
 
         if (
             Request::input('is_correct') &&
-            $question->answers()->where('is_correct', true)->count() >= 1
+            $question->answers()->whereIsCorrect(true)->count() >= 1
         ) {
             return Redirect::route('questions.edit', $question)
                             ->with('error', 'É permitido apenas uma resposta correta.');

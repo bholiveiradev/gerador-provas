@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::where('admin', false)
+        $users = User::whereAdmin(false)
             ->orderByName()
             ->paginate(config('pagination.per_page'))
             ->through(fn ($user) => [
@@ -37,7 +37,7 @@ class UsersController extends Controller
         Request::validate([
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
-            'email' => ['required', 'max:50', 'email', Rule::unique('users')],
+            'email' => ['required', 'max:50', 'email', 'unique:users'],
             'password' => ['nullable'],
             'photo' => ['nullable', 'image'],
         ]);
@@ -69,14 +69,14 @@ class UsersController extends Controller
 
     public function update(User $user)
     {
-        if ($user->isAdmin()) {
+        if ($user->isAdmin() && $user->id !== Auth::id()) {
             return Redirect::back()->with('error', 'Não é possível atualizar um usuário admin.');
         }
 
         Request::validate([
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
-            'email' => ['required', 'max:50', 'email', Rule::unique('users')->ignore($user->id)],
+            'email' => ['required', 'max:50', 'email', 'unique:users,email,' . $user->id . ',id'],
             'password' => ['nullable'],
             'photo' => ['nullable', 'image'],
         ]);

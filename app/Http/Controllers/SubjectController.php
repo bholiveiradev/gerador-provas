@@ -7,7 +7,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class SubjectController extends Controller
@@ -17,7 +16,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects = Subject::where('user_id', Auth::id())
+        $subjects = Subject::whereUserId(Auth::id())
             ->orderBy('name')
             ->paginate(config('pagination.per_page'))
             ->through(fn ($user) => [
@@ -43,7 +42,7 @@ class SubjectController extends Controller
     public function store()
     {
         Request::validate([
-            'name' => ['required', 'max:100', Rule::unique('subjects')],
+            'name' => ['required', 'max:100', 'unique:subjects'],
         ]);
 
         $subject = Subject::create([
@@ -80,7 +79,7 @@ class SubjectController extends Controller
         }
 
         Request::validate([
-            'name' => ['required', 'max:100', Rule::unique('subjects')->ignore($subject->id)],
+            'name' => ['required', 'max:100', 'unique:subjects,name,' . $subject->id . ',id'],
         ]);
 
         $subject->update(Request::only('name'));

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Head title="Editar Questão" />
-    <div class="flex justify-start mb-8 max-w-3xl">
+    <div class="flex justify-start mb-8 w-full">
       <h1 class="text-3xl font-bold">
         <Link class="text-indigo-400 hover:text-indigo-600" href="/subjects">Disciplinas </Link>
         <span class="text-indigo-400 font-medium"> / </span>
@@ -10,7 +10,7 @@
         {{ question.question }}
       </h1>
     </div>
-    <div class="max-w-3xl bg-white rounded-md shadow overflow-hidden mt-8">
+    <div class="w-full bg-white rounded-md shadow overflow-hidden mt-8">
       <form @submit.prevent="update">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
           <text-input v-model="form.question" :error="form.errors.question" class="pb-8 pr-6 w-full" label="Questão" />
@@ -33,7 +33,7 @@
       </form>
     </div>
 
-    <div class="max-w-3xl bg-white rounded-md shadow overflow-hidden mt-8">
+    <div class="w-full bg-white rounded-md shadow overflow-hidden mt-8">
       <form @submit.prevent="storeAnswer">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
           <text-input v-model="formAnswer.answer" :error="formAnswer.errors.answer" class="pb-8 pr-6 w-full" label="Resposta" />
@@ -48,7 +48,7 @@
       </form>
     </div>
 
-    <div class="max-w-3xl bg-white rounded-md shadow overflow-hidden mt-8">
+    <div class="w-full bg-white rounded-md shadow overflow-hidden mt-8">
       <div v-if="!question.answers.length">
         <p class="px-6 py-4 border-t" colspan="4">Nenhuma questão por enquanto.</p>
       </div>
