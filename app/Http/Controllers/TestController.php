@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Question;
 use App\Models\Subject;
 use App\Models\Test;
+use App\Models\TestModel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
@@ -68,7 +70,7 @@ class TestController extends Controller
             DB::commit();
 
             return Redirect::route('tests.create')
-                ->with('success', 'Prova gerada com sucesso.');
+                            ->with('success', 'Prova gerada com sucesso.');
 
         } catch (Throwable $exception) {
 
@@ -86,7 +88,9 @@ class TestController extends Controller
                     ->whereHas('questions')
                     ->first();
 
-        return view('pdf.test', compact('test'));
+        $model = TestModel::first();
+
+        return Blade::render($model->content, compact('test'));
     }
 
     public function print(int $id)
@@ -96,7 +100,15 @@ class TestController extends Controller
                     ->whereHas('questions')
                     ->first();
 
-        return Pdf::loadView('pdf.test', compact('test'))->stream();
+        return Pdf::loadHTML(
+                Blade::render(
+                    TestModel::first()->content,
+                    [
+                        'test' => $test,
+                        'answered' => false
+                    ],
+                )
+            )->stream();
     }
 
     public function answer(int $id)
@@ -106,6 +118,15 @@ class TestController extends Controller
                     ->whereHas('questions')
                     ->first();
 
-        return Pdf::loadView('pdf.answer', compact('test'))->stream();
+        return Pdf::loadHTML(
+                Blade::render(
+                    TestModel::first()->content,
+                    [
+                        'test' => $test,
+                        'answered' => true,
+                    ],
+                    true,
+                )
+            )->stream();
     }
 }
