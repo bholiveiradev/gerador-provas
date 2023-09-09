@@ -7,7 +7,7 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\TestModelController;
+use App\Http\Controllers\TestTemplateController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::get('tests/{test}', [TestController::class, 'show'])->name('tests.show');
 
     // Tests Models
-    Route::get('models', [TestModelController::class, 'index'])->name('models');
+    Route::get('models', [TestTemplateController::class, 'index'])->name('models');
 });
 
 

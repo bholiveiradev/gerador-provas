@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Question;
 use App\Models\Subject;
 use App\Models\Test;
-use App\Models\TestModel;
+use App\Models\TestTemplate;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -88,7 +88,7 @@ class TestController extends Controller
                     ->whereHas('questions')
                     ->first();
 
-        $model = TestModel::first();
+        $model = TestTemplate::first();
 
         return Blade::render($model->content, compact('test'));
     }
@@ -102,7 +102,7 @@ class TestController extends Controller
 
         return Pdf::loadHTML(
                 Blade::render(
-                    TestModel::first()->content,
+                    TestTemplate::first()->content,
                     [
                         'test' => $test,
                         'answered' => false
@@ -120,7 +120,7 @@ class TestController extends Controller
 
         return Pdf::loadHTML(
                 Blade::render(
-                    TestModel::first()->content,
+                    TestTemplate::first()->content,
                     [
                         'test' => $test,
                         'answered' => true,
