@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Doe',
             'email' => 'johndoe@example.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('password'),
+            'password' => bcrypt('secret'),
             'remember_token' => Str::random(10),
             'admin' => true
         ]);
