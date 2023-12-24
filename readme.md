@@ -1,76 +1,78 @@
 # Tests Builder (Gerador de Provas - Escolar)
 
+Projeto desenvolvido com o framework PHP [Laravel](https://laravel.com) e [Inertia](https://inertiajs.com/) para um frontend moderno e responsivo.
+
 ## Installation
 
-Clone the repo locally:
+Clone o repositório:
 
 ```sh
-git clone https://github.com/inertiajs/pingcrm.git pingcrm
-cd pingcrm
+git clone https://github.com/bholiveiradev/gerador-provas
+cd gerador-provas
 ```
 
-Install PHP dependencies:
+Instale as dependências do PHP:
 
 ```sh
 composer install
 ```
 
-Install NPM dependencies:
+Instale as dependências do NPM:
 
 ```sh
 npm ci
 ```
 
-Build assets:
+Compile os assets:
 
 ```sh
 npm run dev
 ```
 
-Setup configuration:
+Configure as variáveis de ambiente:
 
 ```sh
 cp .env.example .env
 ```
 
-Generate application key:
+Gere a chave da aplicação:
 
 ```sh
 php artisan key:generate
 ```
 
-Create an SQLite database. You can also use another database (MySQL, Postgres), simply update your configuration accordingly.
+Crie o banco de dados SQLite. Você também pode usar outros bancos (MySQL, Postgres), apenas atualize as configurações necessárias.
 
 ```sh
 touch database/database.sqlite
 ```
 
-Run database migrations:
+Rode as migrations:
 
 ```sh
 php artisan migrate
 ```
 
-Run database seeder:
+Rode as seeders:
 
 ```sh
 php artisan db:seed
 ```
 
-Run the dev server (the output will give the address):
+Rode o servidor de desenvolvimento:
 
 ```sh
 php artisan serve
 ```
 
-You're ready to go! Visit Ping CRM in your browser, and login with:
+Pronto! A aplicação será aberta no browser, faça login:
 
 - **Username:** johndoe@example.com
 - **Password:** secret
 
-## Running tests
+## Rodando testes
 
-To run the Ping CRM tests, run:
+Para os testes, rode o comando:
 
 ```
 phpunit
