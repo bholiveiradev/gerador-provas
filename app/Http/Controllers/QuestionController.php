@@ -16,9 +16,9 @@ class QuestionController extends Controller
      */
     public function store(QuestionRequest $request, Subject $subject)
     {
-        $subject->questions()->create(
-            $request->only('question', 'additional_text')
-        );
+        $data = $request->only('question', 'additional_text');
+
+        $subject->questions()->create($data);
 
         return Redirect::route('subjects.edit', $subject)
                         ->with('success', 'Questão adicionada.');
@@ -39,9 +39,9 @@ class QuestionController extends Controller
      */
     public function update(QuestionRequest $request, Question $question)
     {
-        $question->update(
-            $request->only('question', 'additional_text')
-        );
+        $data = $request->only('question', 'additional_text');
+
+        $question->update($data);
 
         return Redirect::back()->with('success', 'Questão atualizada.');
     }

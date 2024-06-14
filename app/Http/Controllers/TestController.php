@@ -22,9 +22,9 @@ class TestController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Tests/Index', [
-            'tests' => Test::whereUserId(Auth::id())->with('subject')->get(),
-        ]);
+        $tests = Test::whereUserId(Auth::id())->with('subject')->get();
+
+        return Inertia::render('Tests/Index', compact('tests'));
     }
 
     /**
@@ -32,9 +32,9 @@ class TestController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Tests/Create', [
-            'subjects' => Subject::whereUserId(Auth::id())->get(),
-        ]);
+        $subjects = Subject::whereUserId(Auth::id())->get();
+
+        return Inertia::render('Tests/Create', compact('subjects'));
     }
 
     /**
@@ -47,9 +47,9 @@ class TestController extends Controller
             'count_questions' => ['required', 'numeric', 'min:1'],
         ], ['subject.exists' => 'Não há questões cadastradas para a disciplina selecionada']);
 
-        DB::beginTransaction();
-
         try {
+            DB::beginTransaction();
+            
             $questions = Question::whereSubjectId(Request::input('subject'))
                             ->inRandomOrder()
                             ->limit(Request::input('count_questions'))
@@ -61,8 +61,8 @@ class TestController extends Controller
                 'subject_id' => Request::input('subject'),
                 'infos' => Request::input('infos'),
                 'count_questions' => count($questions) >= Request::input('count_questions')
-                                        ? Request::input('count_questions')
-                                        : count($questions),
+                                    ? Request::input('count_questions')
+                                    : count($questions),
             ]);
 
             $test->questions()->sync($questions);

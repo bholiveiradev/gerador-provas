@@ -12,12 +12,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Dashboard/Index', [
-            'countSubjects' => Subject::whereUserId(Auth::id())->count(),
-            'countQuestions' => Question::whereHas('subject', function ($query) {
-                $query->whereUserId(Auth::id());
-            })->count(),
-            'countTests' => Test::whereUserId(Auth::id())->count(),
-        ]);
+        $countSubjects = Subject::whereUserId(Auth::id())->count();
+        $countTests = Test::whereUserId(Auth::id())->count();
+        $countQuestions = Question::whereHas('subject', function ($query) {
+            $query->whereUserId(Auth::id());
+        })->count();
+
+        return Inertia::render('Dashboard/Index', compact('countSubjects', 'countQuestions', 'countTests'));
     }
 }

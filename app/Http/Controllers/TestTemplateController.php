@@ -11,8 +11,8 @@ class TestTemplateController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Tests/Index', [
-            'tests' => TestTemplate::whereUserId(Auth::id())->get(),
-        ]);
+        $tests = TestTemplate::whereUserId(Auth::id())->get();
+
+        return Inertia::render('Tests/Index', compact('tests'));
     }
 }
